@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Amēlijas burti</title>
+</head>
+<body>
+    <div class="page">
+        <div class="Header">
+            <h1 class="header-title">AMĒLIJAS BURTI</h1>
+        </div>
+    </div>
+    <div class="page nodala" id="hello">
+        <button class="hello" onclick="atvertSadalu('game')">SĀKT SPĒLI!</button>
+    </div> 
+    <div class="page nodala" id="game">
+        <div class="atbilde">
+            <p class="pareizi blakus">KĀDS BURTS?</p> <!--Parāda vārdus "PAREIZI" vai "NEPAREIZI", ņemot vērā nopsiesto burtu-->
+            <p id="nospiests">...</p> <!--Parāda nospiesto burtu-->
+            
+        </div>
+        <div class="spele">
+            <div class="box-bilde blakus">
+                <div class="bilde" id="bilde"></div><!--tukša bildes kaste, aizpilda ar JavaScript-->
+                <input class="next" type="button" value="JAUNS ATTĒLS➜" id="next" onClick="createWord()"><!--Jānospiež, lai parādītu nākamo attēlu-->
+            </div>
+            <div class="box-burti blakus">
+                <input class="alfabets" type="button" value="A" id="A" onClick="reply_click()">
+                <input class="alfabets" type="button" value="Ā" id="Ā" onClick="reply_click()">
+                <input class="alfabets" type="button" value="B" id="B" onClick="reply_click()">
+                <input class="alfabets" type="button" value="C" id="C" onClick="reply_click()">
+                <input class="alfabets" type="button" value="Č" id="Č" onClick="reply_click()">
+                <input class="alfabets" type="button" value="D" id="D" onClick="reply_click()">
+                <input class="alfabets" type="button" value="E" id="E" onClick="reply_click()">
+                <input class="alfabets" type="button" value="Ē" id="Ē" onClick="reply_click()">
+                <input class="alfabets" type="button" value="F" id="F" onClick="reply_click()">
+                <input class="alfabets" type="button" value="G" id="G" onClick="reply_click()">
+                <input class="alfabets" type="button" value="Ģ" id="Ģ" onClick="reply_click()">
+                <input class="alfabets" type="button" value="H" id="H" onClick="reply_click()">
+                <input class="alfabets" type="button" value="I" id="I" onClick="reply_click()">
+                <input class="alfabets" type="button" value="Ī" id="Ī" onClick="reply_click()">
+                <input class="alfabets" type="button" value="J" id="J" onClick="reply_click()">
+                <input class="alfabets" type="button" value="K" id="K" onClick="reply_click()">
+                <input class="alfabets" type="button" value="Ķ" id="Ķ" onClick="reply_click()">
+                <input class="alfabets" type="button" value="L" id="L" onClick="reply_click()">
+                <input class="alfabets" type="button" value="Ļ" id="Ļ" onClick="reply_click()">
+                <input class="alfabets" type="button" value="M" id="M" onClick="reply_click()">
+                <input class="alfabets" type="button" value="N" id="N" onClick="reply_click()">
+                <input class="alfabets" type="button" value="Ņ" id="Ņ" onClick="reply_click()">
+                <input class="alfabets" type="button" value="O" id="O" onClick="reply_click()">
+                <input class="alfabets" type="button" value="P" id="P" onClick="reply_click()">
+                <input class="alfabets" type="button" value="R" id="R" onClick="reply_click()">
+                <input class="alfabets" type="button" value="S" id="S" onClick="reply_click()">
+                <input class="alfabets" type="button" value="Š" id="Š" onClick="reply_click()">
+                <input class="alfabets" type="button" value="T" id="T" onClick="reply_click()">
+                <input class="alfabets" type="button" value="U" id="U" onClick="reply_click()">
+                <input class="alfabets" type="button" value="Ū" id="Ū" onClick="reply_click()">
+                <input class="alfabets" type="button" value="V" id="V" onClick="reply_click()">
+                <input class="alfabets" type="button" value="Z" id="Z" onClick="reply_click()">
+                <input class="alfabets" type="button" value="Ž" id="Ž" onClick="reply_click()">
+            </div>
+
+        </div>
+
+
+
+
+
+
+
+
+
+    </div>
+    <script>
+        
+        
+        //f-cija, kas pēc navigācijas pogas nospiešanas atver atbilstošo klasi un paslēpj pārējās
+        function atvertSadalu(sadalasID) {
+            var i;
+            var x = document.getElementsByClassName("nodala");
+            for (i = 0; i < x.length; i++) {
+                x[i].style.display = "none";  //visiem uzliek stilu neredzams
+            }
+            document.getElementById(sadalasID).style.display = "block";  //blokam ar attiecīgo id nosaukumu nomaina stilu uz redzams 
+        }
+
+        //Programma pēc nejaušības principa izvēles attēlu un parāda to id='bilde' kastītē.
+        //Spēlētājs nospiež burta pogu, ar kuru sākas attēlā redzamā objekta nosaukums.
+        //Ja spēlētāja nospiestais burts sākas ar bildes nosaukuma pirmo burtu, parādās atbilde "PAREIZI" div kastītē class='pareizi'.
+        //vārdu masīvs
+
+             
+
+        const btn=document.querySelector('.hello');//btn - poga, lai sāktu spēli
+        const bilde=document.querySelector('#bilde');//bildes vieta html
+        const guess=document.querySelector('#nospiests');//vieta, kurā parādās nospiestās alfabēta pogas id
+        const atbilde=document.querySelector('.pareizi');//pareizi/nepareizi teksta logs
+        const nakamais=document.querySelector('.next');//nākamais attēls poga
+        let game=false;
+        let newImage="";//nejauši izvēlētā masīva vārda atbilstošais attēls
+        let newV="";
+        let poga="";
+
+        const words=[
+                    {title: "ASTOŅKĀJIS", img: "atteli/A.png"},
+                    {title: "ĀBOLS", img: "atteli/ā.jpg"},
+                    {title: "BALONS", img: "atteli/b.png"},
+                    {title: "CĀLIS", img: "atteli/c.png"},
+                    {title: "ČIEKURS", img: "atteli/č.jpg"},
+                    {title: "DINOZAURS", img: "atteli/d.png"},
+                    {title: "EZIS", img: "atteli/e.jpg"},
+                    {title: "ĒRGLIS", img: "atteli/ē.png"},
+                    {title: "FORMULA", img: "atteli/f.png"},
+                    {title: "GLIEMEZIS", img: "atteli/g.png"},
+                    {title: "ĢITĀRA", img: "atteli/ģ.png"},
+                    {title: "HAIZIVS", img: "atteli/h.png"},
+                    {title: "IRBE", img: "atteli/i.png"},
+                    {title: "ĪKŠĶIS", img: "atteli/ī.png"},
+                    {title: "JŪRNIEKS", img: "atteli/j.jpg"},
+                    {title: "KROKODILS", img: "atteli/k.png"},
+                    {title: "ĶIRZAKA", img: "atteli/ķ.jpg"},
+                    {title: "LAPSA", img: "atteli/l.png"},
+                    {title: "ĻAUNDARIS", img: "atteli/ļ.png"},
+                    {title: "MOTOCIKLS", img: "atteli/m.png"},
+                    {title: "NĪLZIRGS", img: "atteli/n.jpg"},
+                    {title: "ŅAUDULIS", img: "atteli/ņ.png"},
+                    {title: "ODS", img: "atteli/o.png"},
+                    {title: "PŪĶIS", img: "atteli/p.png"},
+                    {title: "RITENS", img: "atteli/r.png"},
+                    {title: "SAULE", img: "atteli/s.png"},
+                    {title: "ŠOKOLĀDE", img: "atteli/š.png"},
+                    {title: "TĪĢERIS", img: "atteli/t.png"},
+                    {title: "UGUNS", img: "atteli/u.png"},
+                    {title: "ŪSAS", img: "atteli/ū.png"},
+                    {title: "VALIS", img: "atteli/v.png"},
+                    {title: "ZĀBAKS", img: "atteli/z.png"},
+                    {title: "ŽURKA", img: "atteli/ž.png"}
+                ];
+
+         //pēc nejaušības principa izvēlas no masīva attēlu
+        const createWord=()=>{
+            number=Math.floor(Math.random()*words.length);//mainīgajam number piešķir nejauši izvēlētu mazā masīva indeksu
+            let random=words[number].title;//izveidots lokālais mainīgais random, kuram pieškirta mazā masīva title vērtība
+            let letter = random.charAt(0);
+            newImage=words[number].img;//globālam mainīgajam pieškirta mazā masīva img vērtība
+            newV=letter;
+            console.log(random);
+            console.log(newImage);
+            console.log(letter);
+            console.log(newV)
+            guess.innerHTML="";//iztukšo input loga saturu
+            bilde.innerHTML='<img class="att" src="' +newImage+ '">';//blokā <div class="bilde"> ievieto randoma attēlu
+            nakamais.style.display="none";
+            atbilde.innerHTML="KĀDS BURTS?"
+        }
+        
+       
+
+        function reply_click(){
+            poga=event.srcElement.id;//mainīgajā poga saglabā nospiestās pogas id
+            console.log(poga+"*");
+
+                
+                if (poga==newV){ //ja lietotāja ievadītais vārds vienāds ar nejauši izvēlēto vārdu
+                    console.log('correct');
+                    game=false;
+                    guess.innerHTML=poga;//pēc pogas nospiešana, html kodā tiek parādīts mainīgā poga saturs
+                    atbilde.style.color="#fff"
+                    atbilde.innerHTML='PAREIZI';//html <p class="pareizi"> izvada tekstu, ka pareizi
+                    nakamais.style.display="block";  
+                }  
+                else{
+                    game=false;
+                    guess.innerHTML=poga;//pēc pogas nospiešana, html kodā tiek parādīts mainīgā poga saturs
+                    atbilde.style.color="red"
+                    atbilde.innerHTML='NEPAREIZI. MĒĢINI VĒL!';//html <p class="pareizi"> izvada tekstu, ka nepareizi
+                    nakamais.style.display="none";
+                }  
+        }
+
+
+        
+
+        
+    </script>
+</body>
+</html>
